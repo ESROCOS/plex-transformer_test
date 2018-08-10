@@ -1,0 +1,8 @@
+ASNACN_DIR: dataview/
+PROJECT_NAME: plex-transformer_test
+deps:
+- plex/transformer: ''
+- gui/vizkit3d_taste: ''
+- types/base: ''
+- types/base_support: ''
+- tools/dispatchers: 
