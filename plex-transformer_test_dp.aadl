@@ -22,11 +22,11 @@ END deploymentview::DV::Node1;
 PACKAGE deploymentview::DV
 PUBLIC
 
-WITH interfaceview::IV::absoluterobotpose;
 WITH interfaceview::IV::RigidBodyStateDispatcher;
 WITH interfaceview::IV::Transformer;
 WITH interfaceview::IV::dummyproducer;
-WITH interfaceview::IV::absolutmarkerpose;
+WITH interfaceview::IV::ampprint;
+WITH interfaceview::IV::arpprint;
 WITH ocarina_processors_x86;
 WITH deploymentview::DV::Node1;
 WITH Taste;
@@ -38,9 +38,6 @@ END Node1;
 
 SYSTEM IMPLEMENTATION Node1.others
 SUBCOMPONENTS
-  IV_absoluterobotpose : SYSTEM interfaceview::IV::absoluterobotpose::absoluterobotpose.others {
-    Taste::FunctionName => "absoluterobotpose";
-  };
   IV_RigidBodyStateDispatcher : SYSTEM interfaceview::IV::RigidBodyStateDispatcher::RigidBodyStateDispatcher.others {
     Taste::FunctionName => "RigidBodyStateDispatcher";
   };
@@ -50,8 +47,11 @@ SUBCOMPONENTS
   IV_dummyproducer : SYSTEM interfaceview::IV::dummyproducer::dummyproducer.others {
     Taste::FunctionName => "dummyproducer";
   };
-  IV_absolutmarkerpose : SYSTEM interfaceview::IV::absolutmarkerpose::absolutmarkerpose.others {
-    Taste::FunctionName => "absolutmarkerpose";
+  IV_ampprint : SYSTEM interfaceview::IV::ampprint::ampprint.others {
+    Taste::FunctionName => "ampprint";
+  };
+  IV_arpprint : SYSTEM interfaceview::IV::arpprint::arpprint.others {
+    Taste::FunctionName => "arpprint";
   };
   x86_partition : PROCESS deploymentview::DV::Node1::x86_partition.others {
     Taste::coordinates => "84948 93759 205178 140239";
@@ -61,11 +61,11 @@ SUBCOMPONENTS
     Taste::coordinates => "69919 80479 220207 146879";
   };
 PROPERTIES
-  Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_absoluterobotpose;
   Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_RigidBodyStateDispatcher;
   Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_Transformer;
   Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_dummyproducer;
-  Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_absolutmarkerpose;
+  Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_ampprint;
+  Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_arpprint;
   Actual_Processor_Binding => (reference (x86_linux)) APPLIES TO x86_partition;
 END Node1.others;
 

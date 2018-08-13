@@ -5,59 +5,10 @@
 -- generated code: do not edit
 ---------------------------------------------------
 
-PACKAGE interfaceview::IV::absoluterobotpose
-PUBLIC
-
-WITH Taste;
-WITH DataView;
-WITH TASTE_IV_Properties;
-SUBPROGRAM PI_updateRigidBodyState
-FEATURES
-  rbstate : IN PARAMETER DataView::Base_samples_RigidBodyState {
-    Taste::encoding => NATIVE;
-  };
-PROPERTIES
-  Taste::Associated_Queue_Size => 1;
-END PI_updateRigidBodyState;
-
-SUBPROGRAM IMPLEMENTATION PI_updateRigidBodyState.others
-PROPERTIES
-  Compute_Execution_Time => 0 ms .. 0 ms;
-END PI_updateRigidBodyState.others;
-
-SYSTEM absoluterobotpose
-FEATURES
-  PI_updateRigidBodyState : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::absoluterobotpose::PI_updateRigidBodyState.others {
-    Taste::coordinates => "232922 74978";
-    Taste::RCMoperationKind => sporadic;
-    Taste::RCMperiod => 0 ms;
-    Taste::Deadline => 0 ms;
-    Taste::InterfaceName => "updateRigidBodyState";
-  };
-PROPERTIES
-  Source_Language => (CPP);
-  Taste::Active_Interfaces => any;
-END absoluterobotpose;
-
-SYSTEM IMPLEMENTATION absoluterobotpose.others
-SUBCOMPONENTS
-  configFile : DATA DataView::Vizkit3D_FilePath {
-    Taste::FS_Default_Value => """config-bodystate.yml""";
-  };
-  id : DATA DataView::Vizkit3D_PluginLabel {
-    Taste::FS_Default_Value => """arp""";
-  };
-  compilerOption : DATA DataView::Taste_directive {
-    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
-  };
-END absoluterobotpose.others;
-
-END interfaceview::IV::absoluterobotpose;
-
 PACKAGE interfaceview::IV::RigidBodyStateDispatcher
 PUBLIC
 
-WITH interfaceview::IV::absoluterobotpose;
+WITH interfaceview::IV::arpprint;
 WITH interfaceview::IV::Transformer;
 WITH Taste;
 WITH DataView;
@@ -78,7 +29,7 @@ END PI_dispatch.others;
 
 SUBPROGRAM RI_sample
 FEATURES
-  rbstate : IN PARAMETER DataView::Base_samples_RigidBodyState {
+  pose : IN PARAMETER DataView::Base_samples_RigidBodyState {
     Taste::encoding => NATIVE;
   };
 END RI_sample;
@@ -105,8 +56,8 @@ FEATURES
     Taste::Deadline => 0 ms;
     Taste::InterfaceName => "dispatch";
   };
-  RI_sample : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::absoluterobotpose::PI_updateRigidBodyState.others {
-    Taste::coordinates => "141622 91978";
+  RI_sample : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::arpprint::PI_print_rbs.others {
+    Taste::coordinates => "141622 94183";
     Taste::RCMoperationKind => any;
     Taste::InterfaceName => "sample";
     Taste::labelInheritance => "false";
@@ -131,7 +82,7 @@ END interfaceview::IV::RigidBodyStateDispatcher;
 PACKAGE interfaceview::IV::Transformer
 PUBLIC
 
-WITH interfaceview::IV::absolutmarkerpose;
+WITH interfaceview::IV::ampprint;
 WITH Taste;
 WITH DataView;
 WITH TASTE_IV_Properties;
@@ -165,7 +116,7 @@ END PI_relativeMarkerPose.others;
 
 SUBPROGRAM RI_absoluteMarkerPose
 FEATURES
-  rbstate : IN PARAMETER DataView::Base_samples_RigidBodyState {
+  pose : IN PARAMETER DataView::Base_samples_RigidBodyState {
     Taste::encoding => NATIVE;
   };
 END RI_absoluteMarkerPose;
@@ -189,7 +140,7 @@ FEATURES
     Taste::Deadline => 1000 ms;
     Taste::InterfaceName => "relativeMarkerPose";
   };
-  RI_absoluteMarkerPose : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::absolutmarkerpose::PI_updateRigidBodyState.others {
+  RI_absoluteMarkerPose : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::ampprint::PI_print_rbs.others {
     Taste::coordinates => "193181 131943";
     Taste::RCMoperationKind => any;
     Taste::InterfaceName => "absoluteMarkerPose";
@@ -280,63 +231,92 @@ END dummyproducer.others;
 
 END interfaceview::IV::dummyproducer;
 
-PACKAGE interfaceview::IV::absolutmarkerpose
+PACKAGE interfaceview::IV::ampprint
 PUBLIC
 
 WITH Taste;
 WITH DataView;
 WITH TASTE_IV_Properties;
-SUBPROGRAM PI_updateRigidBodyState
+SUBPROGRAM PI_print_rbs
 FEATURES
-  rbstate : IN PARAMETER DataView::Base_samples_RigidBodyState {
+  pose : IN PARAMETER DataView::Base_samples_RigidBodyState {
     Taste::encoding => NATIVE;
   };
 PROPERTIES
   Taste::Associated_Queue_Size => 1;
-END PI_updateRigidBodyState;
+END PI_print_rbs;
 
-SUBPROGRAM IMPLEMENTATION PI_updateRigidBodyState.others
+SUBPROGRAM IMPLEMENTATION PI_print_rbs.others
 PROPERTIES
   Compute_Execution_Time => 0 ms .. 0 ms;
-END PI_updateRigidBodyState.others;
+END PI_print_rbs.others;
 
-SYSTEM absolutmarkerpose
+SYSTEM ampprint
 FEATURES
-  PI_updateRigidBodyState : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::absolutmarkerpose::PI_updateRigidBodyState.others {
-    Taste::coordinates => "232690 131301";
+  PI_print_rbs : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::ampprint::PI_print_rbs.others {
+    Taste::coordinates => "220353 133518";
     Taste::RCMoperationKind => sporadic;
     Taste::RCMperiod => 0 ms;
     Taste::Deadline => 0 ms;
-    Taste::InterfaceName => "updateRigidBodyState";
+    Taste::InterfaceName => "print_rbs";
   };
 PROPERTIES
   Source_Language => (CPP);
-  Taste::Active_Interfaces => enabled;
-END absolutmarkerpose;
+  Taste::Active_Interfaces => any;
+END ampprint;
 
-SYSTEM IMPLEMENTATION absolutmarkerpose.others
-SUBCOMPONENTS
-  configFile : DATA DataView::Vizkit3D_FilePath {
-    Taste::FS_Default_Value => """config-bodystate.yml""";
-  };
-  id : DATA DataView::Vizkit3D_PluginLabel {
-    Taste::FS_Default_Value => """amp""";
-  };
-  compilerOption : DATA DataView::Taste_directive {
-    Taste::FS_Default_Value => "compiler-option:""-DOROCOS_TARGET=gnulinux""";
-  };
-END absolutmarkerpose.others;
+SYSTEM IMPLEMENTATION ampprint.others
+END ampprint.others;
 
-END interfaceview::IV::absolutmarkerpose;
+END interfaceview::IV::ampprint;
+
+PACKAGE interfaceview::IV::arpprint
+PUBLIC
+
+WITH Taste;
+WITH DataView;
+WITH TASTE_IV_Properties;
+SUBPROGRAM PI_print_rbs
+FEATURES
+  pose : IN PARAMETER DataView::Base_samples_RigidBodyState {
+    Taste::encoding => NATIVE;
+  };
+PROPERTIES
+  Taste::Associated_Queue_Size => 1;
+END PI_print_rbs;
+
+SUBPROGRAM IMPLEMENTATION PI_print_rbs.others
+PROPERTIES
+  Compute_Execution_Time => 0 ms .. 0 ms;
+END PI_print_rbs.others;
+
+SYSTEM arpprint
+FEATURES
+  PI_print_rbs : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::arpprint::PI_print_rbs.others {
+    Taste::coordinates => "200432 84794";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 0 ms;
+    Taste::Deadline => 0 ms;
+    Taste::InterfaceName => "print_rbs";
+  };
+PROPERTIES
+  Source_Language => (CPP);
+  Taste::Active_Interfaces => any;
+END arpprint;
+
+SYSTEM IMPLEMENTATION arpprint.others
+END arpprint.others;
+
+END interfaceview::IV::arpprint;
 
 PACKAGE interfaceview::IV
 PUBLIC
 
-WITH interfaceview::IV::absoluterobotpose;
 WITH interfaceview::IV::RigidBodyStateDispatcher;
 WITH interfaceview::IV::Transformer;
 WITH interfaceview::IV::dummyproducer;
-WITH interfaceview::IV::absolutmarkerpose;
+WITH interfaceview::IV::ampprint;
+WITH interfaceview::IV::arpprint;
 WITH Taste;
 WITH DataView;
 WITH TASTE_IV_Properties;
@@ -348,12 +328,6 @@ END interfaceview;
 
 SYSTEM IMPLEMENTATION interfaceview.others
 SUBCOMPONENTS
--- [ interfaceview::IV::interfaceview.others.absoluterobotpose - text 
---vizkit3d plugin RigidBodyStateVisualization. 
---]
-  absoluterobotpose : SYSTEM interfaceview::IV::absoluterobotpose::absoluterobotpose.others {
-    Taste::coordinates => "232922 56078 274895 78492";
-  };
   RigidBodyStateDispatcher : SYSTEM interfaceview::IV::RigidBodyStateDispatcher::RigidBodyStateDispatcher.others {
     Taste::coordinates => "113298 79973 141622 100135";
   };
@@ -363,18 +337,18 @@ SUBCOMPONENTS
   dummyproducer : SYSTEM interfaceview::IV::dummyproducer::dummyproducer.others {
     Taste::coordinates => "44573 110848 71137 140845";
   };
--- [ interfaceview::IV::interfaceview.others.absolutmarkerpose - text 
---vizkit3d plugin RigidBodyStateVisualization. 
---]
-  absolutmarkerpose : SYSTEM interfaceview::IV::absolutmarkerpose::absolutmarkerpose.others {
-    Taste::coordinates => "232690 113006 277320 134910";
+  ampprint : SYSTEM interfaceview::IV::ampprint::ampprint.others {
+    Taste::coordinates => "220353 127994 245765 149116";
+  };
+  arpprint : SYSTEM interfaceview::IV::arpprint::arpprint.others {
+    Taste::coordinates => "200432 75190 227576 97752";
   };
 CONNECTIONS
-  absoluterobotpose_PI_updateRigidBodyState_RigidBodyStateDispatcher_RI_sample : SUBPROGRAM ACCESS absoluterobotpose.PI_updateRigidBodyState -> RigidBodyStateDispatcher.RI_sample {
-    Taste::coordinates => "141622 91978 186792 91978 186792 74978 232922 74978";
-  };
   RigidBodyStateDispatcher_PI_dispatch_dummyproducer_RI_robotPose : SUBPROGRAM ACCESS RigidBodyStateDispatcher.PI_dispatch -> dummyproducer.RI_robotPose {
     Taste::coordinates => "71137 114506 92217 114506 92217 87176 113298 87176";
+  };
+  arpprint_PI_print_rbs_RigidBodyStateDispatcher_RI_sample : SUBPROGRAM ACCESS arpprint.PI_print_rbs -> RigidBodyStateDispatcher.RI_sample {
+    Taste::coordinates => "141622 94183 171027 94183 171027 84794 200432 84794";
   };
   Transformer_PI_robotPose_RigidBodyStateDispatcher_RI_sample1 : SUBPROGRAM ACCESS Transformer.PI_robotPose -> RigidBodyStateDispatcher.RI_sample1 {
     Taste::coordinates => "141622 97369 150979 97369 150979 110361 160336 110361";
@@ -382,8 +356,8 @@ CONNECTIONS
   Transformer_PI_relativeMarkerPose_dummyproducer_RI_relativeMarkerPose : SUBPROGRAM ACCESS Transformer.PI_relativeMarkerPose -> dummyproducer.RI_relativeMarkerPose {
     Taste::coordinates => "71137 118164 115736 118164 115736 114285 160336 114285";
   };
-  absolutmarkerpose_PI_updateRigidBodyState_Transformer_RI_absoluteMarkerPose : SUBPROGRAM ACCESS absolutmarkerpose.PI_updateRigidBodyState -> Transformer.RI_absoluteMarkerPose {
-    Taste::coordinates => "193181 131943 210797 131943 210797 131301 232690 131301";
+  ampprint_PI_print_rbs_Transformer_RI_absoluteMarkerPose : SUBPROGRAM ACCESS ampprint.PI_print_rbs -> Transformer.RI_absoluteMarkerPose {
+    Taste::coordinates => "193181 131943 206767 131943 206767 133518 220353 133518";
   };
 END interfaceview.others;
 
