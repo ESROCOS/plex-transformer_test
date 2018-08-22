@@ -1,1 +1,1 @@
-<package><depend package="plex/transformer" /><depend package="gui/vizkit3d_taste" /><depend package="types/base" /><depend package="types/base_support" /><depend package="tools/dispatchers" /></package>
+<package><depend package="plex/transformer" /><depend package="gui/vizkit3d_taste" /><depend package="types/base" /><depend package="types/base_support" /><depend package="tools/dispatchers" /><depend package="tools/debug_components" /></package>

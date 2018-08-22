@@ -6,3 +6,4 @@ deps:
 - types/base: ''
 - types/base_support: ''
 - tools/dispatchers: 
+  tools/debug_components:
