@@ -65,9 +65,7 @@ SKELS="./"
 # Check if Dataview references existing files 
 mono $(which taste-extract-asn-from-design.exe) -i "$INTERFACEVIEW" -j /tmp/dv.asn
 
-cd "$SKELS" && rm -f ampprint.zip && zip ampprint ampprint/* && cd $OLDPWD
-
-cd "$SKELS" && rm -f arpprint.zip && zip arpprint arpprint/* && cd $OLDPWD
+cd "$SKELS" && rm -f printer.zip && zip printer printer/* && cd $OLDPWD
 
 [ ! -z "$CLEANUP" ] && rm -rf binary*
 
@@ -112,8 +110,7 @@ cd "$CWD" && assert-builder-ocarina.py \
 	--subC rigidbodystatedispatcher:/root/esrocos_workspace/install/share/taste_components/dispatchers/rigidbodystatedispatcher.zip \
 	--subCPP transformer:/root/esrocos_workspace/install/share/taste_components/plex-transformer/transformer.zip \
 	--subCPP dummyproducer:/root/esrocos_workspace/install/share/taste_components/plex-transformer/dummyproducer.zip \
-	--subCPP ampprint:"$SKELS"/ampprint.zip \
-	--subCPP arpprint:"$SKELS"/arpprint.zip \
+	--subCPP printer:"$SKELS"/printer.zip \
 	$ORCHESTRATOR_OPTIONS
 
 if [ -f user_init_last.sh ]

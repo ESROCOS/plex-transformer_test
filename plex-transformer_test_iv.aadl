@@ -8,7 +8,7 @@
 PACKAGE interfaceview::IV::RigidBodyStateDispatcher
 PUBLIC
 
-WITH interfaceview::IV::arpprint;
+WITH interfaceview::IV::printer;
 WITH interfaceview::IV::Transformer;
 WITH Taste;
 WITH DataView;
@@ -56,7 +56,7 @@ FEATURES
     Taste::Deadline => 0 ms;
     Taste::InterfaceName => "dispatch";
   };
-  RI_sample : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::arpprint::PI_print_rbs.others {
+  RI_sample : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::printer::PI_update_arp.others {
     Taste::coordinates => "141622 94183";
     Taste::RCMoperationKind => any;
     Taste::InterfaceName => "sample";
@@ -82,7 +82,7 @@ END interfaceview::IV::RigidBodyStateDispatcher;
 PACKAGE interfaceview::IV::Transformer
 PUBLIC
 
-WITH interfaceview::IV::ampprint;
+WITH interfaceview::IV::printer;
 WITH Taste;
 WITH DataView;
 WITH TASTE_IV_Properties;
@@ -140,7 +140,7 @@ FEATURES
     Taste::Deadline => 1000 ms;
     Taste::InterfaceName => "relativeMarkerPose";
   };
-  RI_absoluteMarkerPose : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::ampprint::PI_print_rbs.others {
+  RI_absoluteMarkerPose : REQUIRES SUBPROGRAM ACCESS interfaceview::IV::printer::PI_update_amp.others {
     Taste::coordinates => "193181 131943";
     Taste::RCMoperationKind => any;
     Taste::InterfaceName => "absoluteMarkerPose";
@@ -231,83 +231,65 @@ END dummyproducer.others;
 
 END interfaceview::IV::dummyproducer;
 
-PACKAGE interfaceview::IV::ampprint
+PACKAGE interfaceview::IV::printer
 PUBLIC
 
 WITH Taste;
 WITH DataView;
 WITH TASTE_IV_Properties;
-SUBPROGRAM PI_print_rbs
+SUBPROGRAM PI_update_amp
 FEATURES
   pose : IN PARAMETER DataView::Base_samples_RigidBodyState {
     Taste::encoding => NATIVE;
   };
 PROPERTIES
   Taste::Associated_Queue_Size => 1;
-END PI_print_rbs;
+END PI_update_amp;
 
-SUBPROGRAM IMPLEMENTATION PI_print_rbs.others
+SUBPROGRAM IMPLEMENTATION PI_update_amp.others
 PROPERTIES
   Compute_Execution_Time => 0 ms .. 0 ms;
-END PI_print_rbs.others;
+END PI_update_amp.others;
 
-SYSTEM ampprint
-FEATURES
-  PI_print_rbs : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::ampprint::PI_print_rbs.others {
-    Taste::coordinates => "220353 133518";
-    Taste::RCMoperationKind => sporadic;
-    Taste::RCMperiod => 0 ms;
-    Taste::Deadline => 0 ms;
-    Taste::InterfaceName => "print_rbs";
-  };
-PROPERTIES
-  Source_Language => (CPP);
-  Taste::Active_Interfaces => any;
-END ampprint;
-
-SYSTEM IMPLEMENTATION ampprint.others
-END ampprint.others;
-
-END interfaceview::IV::ampprint;
-
-PACKAGE interfaceview::IV::arpprint
-PUBLIC
-
-WITH Taste;
-WITH DataView;
-WITH TASTE_IV_Properties;
-SUBPROGRAM PI_print_rbs
+SUBPROGRAM PI_update_arp
 FEATURES
   pose : IN PARAMETER DataView::Base_samples_RigidBodyState {
     Taste::encoding => NATIVE;
   };
 PROPERTIES
   Taste::Associated_Queue_Size => 1;
-END PI_print_rbs;
+END PI_update_arp;
 
-SUBPROGRAM IMPLEMENTATION PI_print_rbs.others
+SUBPROGRAM IMPLEMENTATION PI_update_arp.others
 PROPERTIES
-  Compute_Execution_Time => 0 ms .. 0 ms;
-END PI_print_rbs.others;
+  Compute_Execution_Time => 0 ms .. 100 ms;
+END PI_update_arp.others;
 
-SYSTEM arpprint
+SYSTEM printer
 FEATURES
-  PI_print_rbs : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::arpprint::PI_print_rbs.others {
-    Taste::coordinates => "200432 84794";
+  PI_update_amp : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::printer::PI_update_amp.others {
+    Taste::coordinates => "230674 100875";
     Taste::RCMoperationKind => sporadic;
     Taste::RCMperiod => 0 ms;
     Taste::Deadline => 0 ms;
-    Taste::InterfaceName => "print_rbs";
+    Taste::InterfaceName => "update_amp";
+  };
+  PI_update_arp : PROVIDES SUBPROGRAM ACCESS interfaceview::IV::printer::PI_update_arp.others {
+    Taste::coordinates => "230674 90072";
+    Taste::RCMoperationKind => sporadic;
+    Taste::RCMperiod => 100 ms;
+    Taste::Deadline => 100 ms;
+    Taste::InterfaceName => "update_arp";
   };
 PROPERTIES
   Source_Language => (CPP);
   Taste::Active_Interfaces => any;
-END arpprint;
+END printer;
 
-SYSTEM IMPLEMENTATION arpprint.others
-END arpprint.others;
+SYSTEM IMPLEMENTATION printer.others
+END printer.others;
 
-END interfaceview::IV::arpprint;
+END interfaceview::IV::printer;
 
 PACKAGE interfaceview::IV
 PUBLIC
@@ -315,8 +297,7 @@ PUBLIC
 WITH interfaceview::IV::RigidBodyStateDispatcher;
 WITH interfaceview::IV::Transformer;
 WITH interfaceview::IV::dummyproducer;
-WITH interfaceview::IV::ampprint;
-WITH interfaceview::IV::arpprint;
+WITH interfaceview::IV::printer;
 WITH Taste;
 WITH DataView;
 WITH TASTE_IV_Properties;
@@ -337,18 +318,15 @@ SUBCOMPONENTS
   dummyproducer : SYSTEM interfaceview::IV::dummyproducer::dummyproducer.others {
     Taste::coordinates => "44573 110848 71137 140845";
   };
-  ampprint : SYSTEM interfaceview::IV::ampprint::ampprint.others {
-    Taste::coordinates => "220353 127994 245765 149116";
-  };
-  arpprint : SYSTEM interfaceview::IV::arpprint::arpprint.others {
-    Taste::coordinates => "200432 75190 227576 97752";
+  printer : SYSTEM interfaceview::IV::printer::printer.others {
+    Taste::coordinates => "230674 82631 256086 103753";
   };
 CONNECTIONS
   RigidBodyStateDispatcher_PI_dispatch_dummyproducer_RI_robotPose : SUBPROGRAM ACCESS RigidBodyStateDispatcher.PI_dispatch -> dummyproducer.RI_robotPose {
     Taste::coordinates => "71137 114506 92217 114506 92217 87176 113298 87176";
   };
-  arpprint_PI_print_rbs_RigidBodyStateDispatcher_RI_sample : SUBPROGRAM ACCESS arpprint.PI_print_rbs -> RigidBodyStateDispatcher.RI_sample {
-    Taste::coordinates => "141622 94183 171027 94183 171027 84794 200432 84794";
+  printer_PI_update_arp_RigidBodyStateDispatcher_RI_sample : SUBPROGRAM ACCESS printer.PI_update_arp -> RigidBodyStateDispatcher.RI_sample {
+    Taste::coordinates => "141622 94183 186148 94183 186148 90072 230674 90072";
   };
   Transformer_PI_robotPose_RigidBodyStateDispatcher_RI_sample1 : SUBPROGRAM ACCESS Transformer.PI_robotPose -> RigidBodyStateDispatcher.RI_sample1 {
     Taste::coordinates => "141622 97369 150979 97369 150979 110361 160336 110361";
@@ -356,8 +334,8 @@ CONNECTIONS
   Transformer_PI_relativeMarkerPose_dummyproducer_RI_relativeMarkerPose : SUBPROGRAM ACCESS Transformer.PI_relativeMarkerPose -> dummyproducer.RI_relativeMarkerPose {
     Taste::coordinates => "71137 118164 115736 118164 115736 114285 160336 114285";
   };
-  ampprint_PI_print_rbs_Transformer_RI_absoluteMarkerPose : SUBPROGRAM ACCESS ampprint.PI_print_rbs -> Transformer.RI_absoluteMarkerPose {
-    Taste::coordinates => "193181 131943 206767 131943 206767 133518 220353 133518";
+  printer_PI_update_amp_Transformer_RI_absoluteMarkerPose : SUBPROGRAM ACCESS printer.PI_update_amp -> Transformer.RI_absoluteMarkerPose {
+    Taste::coordinates => "193181 131943 206767 131943 206767 100875 230674 100875";
   };
 END interfaceview.others;
 

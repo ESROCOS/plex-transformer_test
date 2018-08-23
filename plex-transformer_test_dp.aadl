@@ -25,8 +25,7 @@ PUBLIC
 WITH interfaceview::IV::RigidBodyStateDispatcher;
 WITH interfaceview::IV::Transformer;
 WITH interfaceview::IV::dummyproducer;
-WITH interfaceview::IV::ampprint;
-WITH interfaceview::IV::arpprint;
+WITH interfaceview::IV::printer;
 WITH ocarina_processors_x86;
 WITH deploymentview::DV::Node1;
 WITH Taste;
@@ -47,11 +46,8 @@ SUBCOMPONENTS
   IV_dummyproducer : SYSTEM interfaceview::IV::dummyproducer::dummyproducer.others {
     Taste::FunctionName => "dummyproducer";
   };
-  IV_ampprint : SYSTEM interfaceview::IV::ampprint::ampprint.others {
-    Taste::FunctionName => "ampprint";
-  };
-  IV_arpprint : SYSTEM interfaceview::IV::arpprint::arpprint.others {
-    Taste::FunctionName => "arpprint";
+  IV_printer : SYSTEM interfaceview::IV::printer::printer.others {
+    Taste::FunctionName => "printer";
   };
   x86_partition : PROCESS deploymentview::DV::Node1::x86_partition.others {
     Taste::coordinates => "84948 93759 205178 140239";
@@ -64,8 +60,7 @@ PROPERTIES
   Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_RigidBodyStateDispatcher;
   Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_Transformer;
   Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_dummyproducer;
-  Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_ampprint;
-  Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_arpprint;
+  Taste::APLC_Binding => (reference (x86_partition)) APPLIES TO IV_printer;
   Actual_Processor_Binding => (reference (x86_linux)) APPLIES TO x86_partition;
 END Node1.others;
 
